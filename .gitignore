@@ -1,0 +1,40 @@
+# =========================
+# Unity generated folders
+# =========================
+Library/
+Temp/
+Obj/
+Build/
+Builds/
+Logs/
+UserSettings/
+
+# =========================
+# IDE / Editor
+# =========================
+.vs/
+.idea/
+.vscode/
+
+# =========================
+# Auto-generated project files
+# =========================
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.pidb
+*.booproj
+*.svd
+
+# =========================
+# OS junk
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Crash logs
+# =========================
+sysinfo.txt
