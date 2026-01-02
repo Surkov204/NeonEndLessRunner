@@ -4,9 +4,13 @@ public class ChunkManager : MonoBehaviour
 {
     public static ChunkManager Instance;
 
-    public Transform[] chunks;
-    public float chunkSpacing; 
-    public float TotalLength => chunkSpacing * chunks.Length;
+    public Chunk[] chunks;
+    public int startIndex = 1;
+
+    public float chunkLength;
+    public float TotalLength;
+
+    int currentIndex;
 
     void Awake()
     {
@@ -15,26 +19,44 @@ public class ChunkManager : MonoBehaviour
 
     void Start()
     {
-        if (chunks == null || chunks.Length < 2)
+        System.Array.Sort(chunks, (a, b) =>
+            a.transform.position.z.CompareTo(b.transform.position.z));
+
+        var r0 = chunks[0].GetComponent<ChunkRunner>();
+        var r1 = chunks[1].GetComponent<ChunkRunner>();
+
+        if (r0 == null || r1 == null)
         {
-            Debug.LogError("Need at least 2 chunks");
+            Debug.LogError("ChunkRunner missing");
             return;
         }
 
-        System.Array.Sort(chunks, (a, b) => a.position.z.CompareTo(b.position.z));
-        Transform backA = chunks[0].Find("BackPoint");
-        Transform backB = chunks[1].Find("BackPoint");
+        chunkLength = Mathf.Abs(
+            r1.backPoint.position.z -
+            r0.backPoint.position.z
+        );
 
-        if (backA == null || backB == null)
-        {
-            Debug.LogError("BackPoint missing in chunks");
-            return;
-        }
+        TotalLength = chunkLength * chunks.Length;
 
-        chunkSpacing = Mathf.Abs(backB.position.z - backA.position.z);
+        currentIndex = startIndex;
+        UpdateEnvironment();
+    }
 
-        Debug.Log($"[ChunkManager] Count={chunks.Length}");
-        Debug.Log($"[ChunkManager] BackPoint spacing={chunkSpacing}");
-        Debug.Log($"[ChunkManager] TotalLength={TotalLength}");
+    // 🔴 CHỈ TĂNG THEO VÒNG
+    public void OnChunkRecycled()
+    {
+        currentIndex = (currentIndex + 1) % chunks.Length;
+        UpdateEnvironment();
+    }
+
+    void UpdateEnvironment()
+    {
+        foreach (var c in chunks)
+            c.envRoot.SetActive(false);
+
+        int next = (currentIndex + 1) % chunks.Length;
+
+        chunks[currentIndex].envRoot.SetActive(true);
+        chunks[next].envRoot.SetActive(true);
     }
 }
