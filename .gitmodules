@@ -1,6 +1,3 @@
-[submodule "Assets/_ArtAssets/Assets/_ArtAssets/POLYGON_SciFiCity"]
-	path = Assets/_ArtAssets/Assets/_ArtAssets/POLYGON_SciFiCity
-	url = https://github.com/Surkov204/NeonGeneEndlessRunnerAsset
 [submodule "Assets/_ArtAssets/SciFiCity"]
 	path = Assets/_ArtAssets/SciFiCity
 	url = https://github.com/Surkov204/NeonGeneEndlessRunnerAsset
