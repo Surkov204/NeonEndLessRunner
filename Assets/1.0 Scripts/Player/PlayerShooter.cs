@@ -4,27 +4,27 @@ using UnityEngine.Animations.Rigging;
 public class PlayerShooter : MonoBehaviour
 {
     [Header("Rig")]
-    public Rig weaponRig;
-    public float rigBlendSpeed = 10f;
+    [SerializeField] private Rig weaponRig;
+    [SerializeField] private float rigBlendSpeed = 10f;
 
     [Header("Weapon")]
-    public Transform muzzle;
-    public GameObject bulletPrefab;
-    public float bulletSpeed = 40f;
-    public float fireRate = 0.12f;
+    [SerializeField] private Transform muzzle;
+    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private float bulletSpeed = 40f;
+    [SerializeField] private float fireRate = 0.12f;
 
-    float targetRigWeight = 0f;
-    float fireTimer = 0f;
-    bool isFiring = false;
+    private float targetRigWeight = 0f;
+    private float fireTimer = 0f;
+    private bool isFiring = false;
 
-    void Update()
+    private void Update()
     {
         HandleInput();
         UpdateRig();
         HandleFire();
     }
 
-    void HandleInput()
+    private void HandleInput()
     {
 #if UNITY_EDITOR || UNITY_STANDALONE
         isFiring = Input.GetMouseButton(0);
@@ -34,7 +34,7 @@ public class PlayerShooter : MonoBehaviour
         targetRigWeight = isFiring ? 1f : 0f;
     }
 
-    void UpdateRig()
+    private void UpdateRig()
     {
         weaponRig.weight = Mathf.Lerp(
             weaponRig.weight,
@@ -43,7 +43,7 @@ public class PlayerShooter : MonoBehaviour
         );
     }
 
-    void HandleFire()
+    private void HandleFire()
     {
         if (!isFiring) return;
 
@@ -55,7 +55,7 @@ public class PlayerShooter : MonoBehaviour
         }
     }
 
-    void Fire()
+    private void Fire()
     {
         if (bulletPrefab == null || muzzle == null) return;
 
