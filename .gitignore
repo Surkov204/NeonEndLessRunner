@@ -8,6 +8,12 @@ Build/
 Builds/
 Logs/
 UserSettings/
+MemoryCaptures/
+
+# =========================
+# Unity packages (IMPORTANT)
+# =========================
+*.unitypackage
 
 # =========================
 # IDE / Editor

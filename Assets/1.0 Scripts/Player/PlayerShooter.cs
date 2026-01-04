@@ -7,63 +7,48 @@ public class PlayerShooter : MonoBehaviour
     [SerializeField] private Rig weaponRig;
     [SerializeField] private float rigBlendSpeed = 10f;
 
-    [Header("Weapon")]
-    [SerializeField] private Transform muzzle;
-    [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private float bulletSpeed = 40f;
-    [SerializeField] private float fireRate = 0.12f;
+    [Header("Refs")]
+    [SerializeField] private WeaponHolder weaponHolder;
 
-    private float targetRigWeight = 0f;
-    private float fireTimer = 0f;
-    private bool isFiring = false;
+    private float targetRigWeight;
+    private bool isFiring;
 
     private void Update()
     {
-        HandleInput();
         UpdateRig();
-        HandleFire();
+
+        if (!isFiring) return;
+
+        Weapon weapon = weaponHolder.CurrentWeapon;
+        if (weapon != null)
+            weapon.TryFire();
     }
 
-    private void HandleInput()
+    public void StartFire()
     {
-#if UNITY_EDITOR || UNITY_STANDALONE
-        isFiring = Input.GetMouseButton(0);
-#else
-        isFiring = Input.touchCount > 0;
-#endif
-        targetRigWeight = isFiring ? 1f : 0f;
+        isFiring = true;
+        targetRigWeight = 1f;
+    }
+
+    public void StopFire()
+    {
+        isFiring = false;
+        targetRigWeight = 0f;
+    }
+
+    public void OnReloadButton()
+    {
+        weaponHolder.CurrentWeapon?.Reload();
     }
 
     private void UpdateRig()
     {
+        if (!weaponRig) return;
+
         weaponRig.weight = Mathf.Lerp(
             weaponRig.weight,
             targetRigWeight,
             Time.deltaTime * rigBlendSpeed
         );
-    }
-
-    private void HandleFire()
-    {
-        if (!isFiring) return;
-
-        fireTimer -= Time.deltaTime;
-        if (fireTimer <= 0f)
-        {
-            Fire();
-            fireTimer = fireRate;
-        }
-    }
-
-    private void Fire()
-    {
-        if (bulletPrefab == null || muzzle == null) return;
-
-        GameObject bullet = Instantiate(bulletPrefab, muzzle.position, muzzle.rotation);
-        Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        if (rb != null)
-            rb.velocity = muzzle.forward * bulletSpeed;
-
-        Destroy(bullet, 3f);
     }
 }
