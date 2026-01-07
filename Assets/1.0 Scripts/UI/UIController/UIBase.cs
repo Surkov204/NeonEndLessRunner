@@ -6,6 +6,15 @@ using Unity.VisualScripting;
 
 namespace JS
 {
+    public enum UIButtonAnimationType
+    {
+        None,
+        SlideLeft,
+        SlideRight,
+        Fade,
+        Scale
+    }
+
     [RequireComponent(typeof(CanvasGroup))]
     public class UIBase : MonoBehaviour
     {
@@ -26,6 +35,15 @@ namespace JS
 
         public bool IsVisible { get; private set; }
         public bool IsAnimating { get; private set; }
+
+        [Header("Button Animation (Optional)")]
+        [SerializeField] private bool enableButtonAnimation = false;
+        [SerializeField] private UIButtonAnimationType buttonAnimationType = UIButtonAnimationType.None;
+        [SerializeField] private float buttonAnimDelay = 1f;
+        [SerializeField] private float buttonAnimDuration = 0.5f;
+        [SerializeField] private float buttonAnimOffset = 600f;
+        [SerializeField] private float buttonAnimInterval = 0.12f;
+        [SerializeField] private List<RectTransform> animatedButtons = new();
 
         protected virtual void Awake()
         {
@@ -50,6 +68,9 @@ namespace JS
                 case UIAnimationType.SlideTop: PlaySlideIn(Vector2.up); break;
                 case UIAnimationType.SlideBottom: PlaySlideIn(Vector2.down); break;
             }
+
+            if (enableButtonAnimation)
+                PlayButtonAnimation();
         }
 
         public virtual void OnHide(UIAnimationType type = UIAnimationType.FadeScale)
@@ -176,6 +197,57 @@ namespace JS
         {
             foreach (var button in listButtonControl)
                 button.interactable = value;
+        }
+
+        private void PlayButtonAnimation()
+        {
+            if (animatedButtons == null || animatedButtons.Count == 0)
+                return;
+
+            for (int i = 0; i < animatedButtons.Count; i++)
+            {
+                var btn = animatedButtons[i];
+                if (btn == null) continue;
+
+                Vector2 targetPos = btn.anchoredPosition;
+
+                switch (buttonAnimationType)
+                {
+                    case UIButtonAnimationType.SlideLeft:
+                        btn.anchoredPosition = targetPos + Vector2.left * buttonAnimOffset;
+                        btn.DOAnchorPos(targetPos, buttonAnimDuration)
+                            .SetDelay(buttonAnimDelay + i * buttonAnimInterval)
+                            .SetEase(Ease.OutCubic)
+                            .SetUpdate(true);
+                        break;
+
+                    case UIButtonAnimationType.SlideRight:
+                        btn.anchoredPosition = targetPos + Vector2.right * buttonAnimOffset;
+                        btn.DOAnchorPos(targetPos, buttonAnimDuration)
+                            .SetDelay(buttonAnimDelay + i * buttonAnimInterval)
+                            .SetEase(Ease.OutCubic)
+                            .SetUpdate(true);
+                        break;
+
+                    case UIButtonAnimationType.Fade:
+                        var cg = btn.GetComponent<CanvasGroup>();
+                        if (cg == null) cg = btn.gameObject.AddComponent<CanvasGroup>();
+
+                        cg.alpha = 0f;
+                        cg.DOFade(1f, buttonAnimDuration)
+                            .SetDelay(buttonAnimDelay + i * buttonAnimInterval)
+                            .SetUpdate(true);
+                        break;
+
+                    case UIButtonAnimationType.Scale:
+                        btn.localScale = Vector3.zero;
+                        btn.DOScale(1f, buttonAnimDuration)
+                            .SetDelay(buttonAnimDelay + i * buttonAnimInterval)
+                            .SetEase(Ease.OutBack)
+                            .SetUpdate(true);
+                        break;
+                }
+            }
         }
     }
 }

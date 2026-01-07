@@ -15,6 +15,8 @@ public class Weapon : MonoBehaviour
 
     public int CurrentAmmo => currentAmmo;
     public int MaxAmmo => data.MagazineSize;
+    public float ReloadTime => data.ReloadTime;
+    public bool IsReloading => isReloading;
 
     [Inject]
     public void Construct(SignalBus signalBus)

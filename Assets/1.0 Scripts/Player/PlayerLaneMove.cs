@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerLaneMove : MonoBehaviour
 {
@@ -14,6 +16,12 @@ public class PlayerLaneMove : MonoBehaviour
 
     private void Update()
     {
+        HandleMovement();
+        HandleKeyboardInput();
+    }
+
+    private void HandleMovement()
+    {
         if (moveDir == 0 || playerTransform == null) return;
 
         Vector3 localPos = playerTransform.localPosition;
@@ -21,6 +29,33 @@ public class PlayerLaneMove : MonoBehaviour
         localPos.x = Mathf.Clamp(localPos.x, minX, maxX);
         playerTransform.localPosition = localPos;
     }
+
+    private void HandleKeyboardInput()
+    {
+#if UNITY_EDITOR || UNITY_STANDALONE
+        if (Keyboard.current == null) return;
+
+        // Giữ phím → move
+        if (Keyboard.current.wKey.isPressed)
+        {
+            MoveUpStart();
+        }
+        else if (Keyboard.current.sKey.isPressed)
+        {
+            MoveDownStart();
+        }
+
+        // Nhả phím → stop (GIỐNG thả nút UI)
+        if (Keyboard.current.wKey.wasReleasedThisFrame ||
+            Keyboard.current.sKey.wasReleasedThisFrame)
+        {
+            StopMove();
+        }
+#endif
+
+    }
+
+
 
     // ===== UI EVENTS =====
     public void MoveUpStart()    // VỀ 0

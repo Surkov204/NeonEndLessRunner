@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
 public class PlayerShooter : MonoBehaviour
@@ -6,6 +6,7 @@ public class PlayerShooter : MonoBehaviour
     [Header("Rig")]
     [SerializeField] private Rig weaponRig;
     [SerializeField] private float rigBlendSpeed = 10f;
+    [SerializeField] private ReloadRadialUI reloadUI;
 
     [Header("Refs")]
     [SerializeField] private WeaponHolder weaponHolder;
@@ -38,7 +39,13 @@ public class PlayerShooter : MonoBehaviour
 
     public void OnReloadButton()
     {
+        Weapon weapon = weaponHolder.CurrentWeapon;
+        if (weapon == null) return;
+        if (weapon.IsReloading) return;
+        if (weapon.CurrentAmmo == weapon.MaxAmmo) return;
+
         weaponHolder.CurrentWeapon?.Reload();
+        reloadUI.StartFill(weapon.ReloadTime);
     }
 
     private void UpdateRig()

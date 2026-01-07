@@ -18,7 +18,7 @@ namespace JS
     {
         [SerializeField] private UIConfigExtend uiConfig;
         [SerializeField] private Transform uiRoot;
-
+        [Inject] private DiContainer container;
         private UIBase currentFullScreen;
         private UIBase currentHUD;
 
@@ -128,7 +128,12 @@ namespace JS
             if (spawned.TryGetValue(type, out var ui) && ui != null)
                 return ui;
 
-            ui = Instantiate(pair.prefab, uiRoot);
+            ui = container.InstantiatePrefabForComponent<UIBase>
+            (
+                pair.prefab,
+                uiRoot
+            );
+
             spawned[type] = ui;
             return ui;
         }
