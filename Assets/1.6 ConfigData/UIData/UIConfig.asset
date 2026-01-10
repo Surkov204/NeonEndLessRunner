@@ -23,3 +23,18 @@ MonoBehaviour:
     animationType: 0
     preload: 0
     destroyAfterHide: 1
+  - prefab: {fileID: 3437017055488033939, guid: 45189dad0a046b5458d9681774e5aba4, type: 3}
+    canvasType: 2
+    animationType: 0
+    preload: 0
+    destroyAfterHide: 1
+  - prefab: {fileID: 8303636193205347367, guid: 5d194ba3e831a4c48bd48f1d5e40fdc3, type: 3}
+    canvasType: 2
+    animationType: 0
+    preload: 0
+    destroyAfterHide: 1
+  - prefab: {fileID: 2872933817162075133, guid: fa1e35c26ad2c07469252a4e2b250875, type: 3}
+    canvasType: 2
+    animationType: 0
+    preload: 0
+    destroyAfterHide: 1

@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using DG.Tweening;
+using Zenject;
 
 public class CoinFlyUI : MonoBehaviour
 {
-    public static CoinFlyUI Instance;
-
     [Header("References")]
     [SerializeField] private RectTransform canvasRect;
     [SerializeField] private RectTransform coinTarget;
@@ -16,16 +15,14 @@ public class CoinFlyUI : MonoBehaviour
     [SerializeField] private Ease finalEase = Ease.InOutQuad;
 
     [Header("Optional")]
-    [SerializeField] private Camera uiCamera; // để null nếu Canvas Overlay
+    [SerializeField] private Camera uiCamera;
 
-    private void Awake()
+    private ICurrencyService currency;
+
+    [Inject]
+    void Construct(ICurrencyService currencyService)
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
+        currency = currencyService;
     }
 
     // ==============================
@@ -33,7 +30,7 @@ public class CoinFlyUI : MonoBehaviour
     // ==============================
     public void SpawnCoinFly(Vector3 worldPos, int amount)
     {
-        if (coinFlyPrefab == null || coinTarget == null || canvasRect == null)
+        if (!coinFlyPrefab || !coinTarget || !canvasRect)
             return;
 
         Vector2 startPos = WorldToCanvas(worldPos);
@@ -46,18 +43,17 @@ public class CoinFlyUI : MonoBehaviour
     }
 
     // ==============================
-    // CORE LOGIC
+    // CORE
     // ==============================
     private void SpawnSingleCoin(Vector2 startPos, Vector2 targetPos, float delay)
     {
         RectTransform coin = Instantiate(coinFlyPrefab, canvasRect)
-                             .GetComponent<RectTransform>();
+            .GetComponent<RectTransform>();
 
         coin.anchoredPosition = startPos;
         coin.localScale = Vector3.one;
 
-        Vector2 randomOffset = Random.insideUnitCircle * spreadRadius;
-        Vector2 midPos = startPos + randomOffset;
+        Vector2 midPos = startPos + Random.insideUnitCircle * spreadRadius;
 
         Sequence seq = DOTween.Sequence();
         seq.SetDelay(delay);
@@ -70,13 +66,13 @@ public class CoinFlyUI : MonoBehaviour
 
         seq.OnComplete(() =>
         {
-            CoinManager.Instance.AddCoin(1);
+            currency.Add(1);   // ✅ cộng tiền CHUẨN
             Destroy(coin.gameObject);
         });
     }
 
     // ==============================
-    // COORDINATE CONVERSION
+    // CONVERT
     // ==============================
     private Vector2 WorldToCanvas(Vector3 worldPos)
     {

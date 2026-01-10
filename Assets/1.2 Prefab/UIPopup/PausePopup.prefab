@@ -738,8 +738,10 @@ MonoBehaviour:
   - {fileID: 3694632420571850650}
   - {fileID: 4007275980321582104}
   continueButton: {fileID: 5527518578724995783}
-  retryButton: {fileID: 6108942185229341553}
-  menuButton: {fileID: 2687206626992764987}
+  retryButton: {fileID: 2687206626992764987}
+  menuButton: {fileID: 6108942185229341553}
+  transitionSettings: {fileID: 11400000, guid: b0126e1e0c6c2a04895d564bd230dfb9, type: 2}
+  startDelay: 0
 --- !u!1 &4973137295818351645
 GameObject:
   m_ObjectHideFlags: 0

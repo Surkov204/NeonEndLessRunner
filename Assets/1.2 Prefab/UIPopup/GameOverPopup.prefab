@@ -444,6 +444,14 @@ MonoBehaviour:
   buttonAnimInterval: 0.12
   animatedButtons:
   - {fileID: 3069721577755233026}
+  reverseButtonAnimationOnHide: 1
+  buttonHideDelay: 0
+  buttonHideDuration: 0.25
+  buttonHideInterval: 0.06
+  defaultShowAnimation: 0
+  OnMainMenuButton: {fileID: 4532952204677664731}
+  transitionSettings: {fileID: 11400000, guid: b0126e1e0c6c2a04895d564bd230dfb9, type: 2}
+  startDelay: 0
 --- !u!1 &6153151536659176251
 GameObject:
   m_ObjectHideFlags: 0

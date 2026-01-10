@@ -17,6 +17,13 @@ public class Health : MonoBehaviour
         OnHealthChanged?.Invoke(CurrentHealth, maxHealth);
     }
 
+    public void SetMaxHealth(int value)
+    {
+        maxHealth = value;
+        HealFull();
+    }
+
+
     public void TakeDamage(int damage)
     {
         if (CurrentHealth <= 0) return;

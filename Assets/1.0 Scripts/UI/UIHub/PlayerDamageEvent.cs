@@ -56,6 +56,7 @@ public class PlayerDamageEvent : MonoBehaviour
 
     private void ShowGameOver()
     {
+        Time.timeScale = 0;
         uiService.Show<GameOverPopup>();
     }
 }

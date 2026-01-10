@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Zenject;
 
 public class ObstacleSpawner : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class ObstacleSpawner : MonoBehaviour
 
     private enum SpawnState { Coin, Obstacle }
     private SpawnState state = SpawnState.Coin;
+    [Inject] private DiContainer container;
 
     private void OnEnable()
     {
@@ -49,7 +51,11 @@ public class ObstacleSpawner : MonoBehaviour
         if (coinPrefabs.Length == 0) return;
 
         int index = Random.Range(0, coinPrefabs.Length);
-        Instantiate(coinPrefabs[index], spawnPoint.position, spawnPoint.rotation);
+        container.InstantiatePrefab(
+           coinPrefabs[index],
+           spawnPoint.position,
+           spawnPoint.rotation,
+           null);
     }
 
     private void SpawnObstacle()
