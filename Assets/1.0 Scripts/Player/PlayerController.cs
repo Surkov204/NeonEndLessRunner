@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -15,6 +16,30 @@ public class PlayerController : MonoBehaviour
     private bool isGround;
     private bool wasGround;
 
+    private void OnEnable()
+    {
+        SwipeInput.OnSwipeUp += HandleSwipeUp;
+        SwipeInput.OnSwipeDown += HandleSwipeDown;
+    }
+
+    private void OnDisable()
+    {
+        SwipeInput.OnSwipeUp -= HandleSwipeUp;
+        SwipeInput.OnSwipeDown -= HandleSwipeDown;
+    }
+
+    private void HandleSwipeUp()
+    {
+        if (!isGround) return;
+        Jump();
+    }
+
+    private void HandleSwipeDown()
+    {
+        if (!isGround) return;
+        Roll();
+    }
+
     private void Update()
     {
         isGround = IsGrounded();
@@ -23,19 +48,29 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("IsJumping", false);
         }
-
-        if (SwipeInput.SwipeUpDetected && isGround)
-        {
-            Jump();
-        }
-
-        if (SwipeInput.SwipeDownDetected && isGround)
-        {
-            Roll();
-        }
-
+        HandleKeyboardInput();
         wasGround = isGround;
     }
+
+    private void HandleKeyboardInput()
+    {
+#if UNITY_EDITOR || UNITY_STANDALONE
+        if (Keyboard.current == null) return;
+
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        {
+            if (isGround)
+                Jump();
+        }
+
+        if (Keyboard.current.xKey.wasPressedThisFrame)
+        {
+            if (isGround)
+                Roll();
+        }
+#endif
+    }
+
 
     private void Roll()
     {

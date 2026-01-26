@@ -11,11 +11,9 @@ public class ChunkManager : MonoBehaviour
     public float TotalLength;
 
     int currentIndex;
+    int prevA = -1, prevB = -1;
 
-    void Awake()
-    {
-        Instance = this;
-    }
+    void Awake() => Instance = this;
 
     void Start()
     {
@@ -31,32 +29,37 @@ public class ChunkManager : MonoBehaviour
             return;
         }
 
-        chunkLength = Mathf.Abs(
-            r1.backPoint.position.z -
-            r0.backPoint.position.z
-        );
-
+        chunkLength = Mathf.Abs(r1.backPoint.position.z - r0.backPoint.position.z);
         TotalLength = chunkLength * chunks.Length;
 
+        // init: tat het 1 lan thoi
+        for (int i = 0; i < chunks.Length; i++)
+            chunks[i].envRoot.SetActive(false);
+
         currentIndex = startIndex;
-        UpdateEnvironment();
+        ApplyActivePair(currentIndex);
     }
 
-    // 🔴 CHỈ TĂNG THEO VÒNG
     public void OnChunkRecycled()
     {
         currentIndex = (currentIndex + 1) % chunks.Length;
-        UpdateEnvironment();
+        ApplyActivePair(currentIndex);
     }
 
-    void UpdateEnvironment()
+    void ApplyActivePair(int idx)
     {
-        foreach (var c in chunks)
-            c.envRoot.SetActive(false);
+        int a = idx;
+        int b = (idx + 1) % chunks.Length;
 
-        int next = (currentIndex + 1) % chunks.Length;
+        // tat 2 cai cu
+        if (prevA != -1) chunks[prevA].envRoot.SetActive(false);
+        if (prevB != -1 && prevB != prevA) chunks[prevB].envRoot.SetActive(false);
 
-        chunks[currentIndex].envRoot.SetActive(true);
-        chunks[next].envRoot.SetActive(true);
+        // bat 2 cai moi
+        chunks[a].envRoot.SetActive(true);
+        chunks[b].envRoot.SetActive(true);
+
+        prevA = a;
+        prevB = b;
     }
 }
