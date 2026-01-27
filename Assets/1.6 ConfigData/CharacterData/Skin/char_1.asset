@@ -16,3 +16,5 @@ MonoBehaviour:
   skinIndex: 0
   price: 0
   health: 100
+  healthRegen: 100
+  speedMove: 4

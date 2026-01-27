@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.9874636, z: -0, w: -0.15784682}
   m_LocalPosition: {x: -34.91, y: 1.41, z: 58.827785}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.4, y: 1.4, z: 1.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -102,6 +102,7 @@ MonoBehaviour:
   moveSpeed: 30
   moveDirection: {x: 0, y: 0, z: -1}
   explosionPrefab: {fileID: 1911977691184721333, guid: 50ae7043759719848b076f9c25642697, type: 3}
+  damageToPlayer: 10
 --- !u!114 &-5331081253543150261
 MonoBehaviour:
   m_ObjectHideFlags: 0

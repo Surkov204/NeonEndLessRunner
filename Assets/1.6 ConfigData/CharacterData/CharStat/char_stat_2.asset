@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f04b5481f4f5e8a42857d515e7590968, type: 3}
   m_Name: char_stat_2
   m_EditorClassIdentifier: 
-  maxHealth: 120
+  maxHealth: 125
+  maxHealResource: 115
+  moveSpeed: 5

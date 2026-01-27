@@ -5,6 +5,8 @@ public class PlayerModelController : MonoBehaviour
 {
     [SerializeField] private List<GameObject> characterModels;
     [SerializeField] private Health health;
+    [SerializeField] private HealResource healResource;
+    [SerializeField] private PlayerLaneMove laneMove;
 
     private int currentIndex = -1;
 
@@ -52,6 +54,8 @@ public class PlayerModelController : MonoBehaviour
         if (holder != null && holder.stats != null)
         {
             health.SetMaxHealth(holder.stats.maxHealth);
+            healResource.Init(holder.stats.maxHealResource);
+            laneMove.ApplyStats(holder.stats);
         }
     }
 }

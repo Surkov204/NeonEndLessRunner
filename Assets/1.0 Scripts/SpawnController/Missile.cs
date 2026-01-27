@@ -38,6 +38,7 @@ public class Missile : MonoBehaviour
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(damageToPlayer);
+                AudioManager.Instance.PlaySoundFX(SoundFXLibrary.SoundFXName.Missile);
             }
 
             OnDead();

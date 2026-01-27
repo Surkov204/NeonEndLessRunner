@@ -11,10 +11,22 @@ public class Obstacle : MonoBehaviour
     private void Awake()
     {
         health = GetComponent<Health>();
+    }
+
+    private void OnEnable()
+    {
         if (health != null)
         {
+            health.OnDeath -= OnDead;
             health.OnDeath += OnDead;
+            health.ResetHealth();
         }
+    }
+
+    private void OnDisable()
+    {
+        if (health != null)
+            health.OnDeath -= OnDead;
     }
 
     private void Update()
@@ -26,12 +38,10 @@ public class Obstacle : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Health playerHealth = other.GetComponent<Health>();
+            var playerHealth = other.GetComponent<Health>();
             if (playerHealth != null)
-            {
                 playerHealth.TakeDamage(damageToPlayer);
-            }
-
+            AudioManager.Instance.PlaySoundFX(SoundFXLibrary.SoundFXName.Crash);
             OnDead();
         }
     }
@@ -40,12 +50,10 @@ public class Obstacle : MonoBehaviour
     {
         if (explosionPrefab != null)
         {
-            GameObject explosion =
-            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-
+            var explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
             Destroy(explosion, 0.25f);
         }
 
-        Destroy(gameObject);
-    }   
+        MultiPrefabPool.Instance.Despawn(gameObject);
+    }
 }

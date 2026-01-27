@@ -1,46 +1,45 @@
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 
 public class WeaponHolder : MonoBehaviour
 {
     [SerializeField] private Weapon[] weapons;
 
-    [Header("TEST ONLY")]
-    [SerializeField] private bool useTestWeapon = false;
-    [SerializeField] private Weapon testWeapon;
-
     private Weapon currentWeapon;
     public Weapon CurrentWeapon => currentWeapon;
 
     private void Awake()
     {
+        // 🔥 BẮT BUỘC: disable toàn bộ weapon trước
         foreach (var w in weapons)
-            w.gameObject.SetActive(false);
-
-        if (useTestWeapon && testWeapon != null)
         {
-            EquipWeapon(testWeapon);
+            if (w != null)
+                w.gameObject.SetActive(false);
         }
     }
 
-    public void EquipWeapon(Weapon weapon)
+    private void Start()
     {
-        if (currentWeapon == weapon) return;
+        int equippedIndex = WeaponState.GetEquipped();
+        Debug.Log("[WeaponHolder] Equip index = " + equippedIndex);
 
-        if (currentWeapon != null)
-            currentWeapon.gameObject.SetActive(false);
-
-        currentWeapon = weapon;
-
-        if(currentWeapon != null)
-        {
-            currentWeapon.gameObject.SetActive(true);
-        }
+        EquipByIndex(equippedIndex);
     }
 
     public void EquipByIndex(int index)
     {
-        if (index < 0 || index >= weapons.Length) return;
-        EquipWeapon(weapons[index]);
+        if (index < 0 || index >= weapons.Length)
+        {
+            Debug.LogError("Invalid weapon index: " + index);
+            return;
+        }
+
+        if (currentWeapon != null)
+            currentWeapon.gameObject.SetActive(false);
+
+        currentWeapon = weapons[index];
+
+        if (currentWeapon != null)
+            currentWeapon.gameObject.SetActive(true);
     }
 }

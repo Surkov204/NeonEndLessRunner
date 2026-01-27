@@ -13,6 +13,11 @@ MonoBehaviour:
   m_Name: Gun_3
   m_EditorClassIdentifier: 
   gunIndex: 2
+  gunName: Death Plow
   isShopItem: 1
   price: 2000
+  maxAmmo: 100
+  fireRate: 0.05
+  reloadTime: 3
+  muzzleVelocity: 50
   gunMaterial: {fileID: 0}

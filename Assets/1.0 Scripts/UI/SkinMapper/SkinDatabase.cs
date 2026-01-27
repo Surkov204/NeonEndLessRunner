@@ -16,6 +16,18 @@ public class SkinDatabase : MonoBehaviour
         return skin != null ? skin.health : 0;
     }
 
+    public int GetHealthRegen(int index)
+    {
+        var skin = GetSkin(index);
+        return skin != null ? skin.healthRegen : 0;
+    }
+
+    public int GetSpeedMove(int index)
+    {
+        var skin = GetSkin(index);
+        return skin != null ? skin.speedMove : 0;
+    }
+
     public bool IsShopItem(int index)
     {
         var skin = GetSkin(index);

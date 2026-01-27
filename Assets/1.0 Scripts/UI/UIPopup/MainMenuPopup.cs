@@ -16,6 +16,7 @@ namespace js {
         [SerializeField] private Button OnShopButton;
         [SerializeField] private Button OnGunShopButton;
         [SerializeField] private Button OnExitButton;
+        [SerializeField] private Button OnSettingButton;
 
         public static System.Action OnGunShopRequested;
         private const string MAIN_GAMEPLAY_SCENE = "MainGamePlay";
@@ -35,6 +36,7 @@ namespace js {
             OnShopButton?.onClick.AddListener(OnShopButtonClicked);
             OnGunShopButton?.onClick.AddListener(OnGunShop);
             OnExitButton?.onClick.AddListener(OnQuitButtonClicked);
+            OnSettingButton?.onClick.AddListener(OnSettingPopup);
         }
 
         private void Start()
@@ -62,6 +64,12 @@ namespace js {
             OnGunShopRequested?.Invoke();
             uiService.Hide<MainMenuPopup>();
             uiService.Show<UIGunShopPopup>();
+        }
+
+        public void OnSettingPopup()
+        {
+            uiService.Hide<MainMenuPopup>();
+            uiService.Show<SettingPopup>();
         }
 
 

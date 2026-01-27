@@ -419,7 +419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c103a979a1b53543bb83197b050d8a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 20
+  moveSpeed: 18
   moveDirection: {x: 0, y: 0, z: -1}
   explosionPrefab: {fileID: 0}
   damageToPlayer: 10

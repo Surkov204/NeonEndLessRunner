@@ -13,4 +13,5 @@ public class GunDatabase : MonoBehaviour
 
     public bool IsShopItem(int index)
         => GetGun(index)?.isShopItem ?? false;
+
 }

@@ -144,3 +144,4 @@ MonoBehaviour:
   moveSpeed: 20
   moveDirection: {x: 0, y: 0, z: -1}
   explosionPrefab: {fileID: 0}
+  damageToPlayer: 10

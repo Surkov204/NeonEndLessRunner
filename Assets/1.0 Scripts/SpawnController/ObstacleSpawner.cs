@@ -16,7 +16,6 @@ public class ObstacleSpawner : MonoBehaviour
 
     private enum SpawnState { Coin, Obstacle }
     private SpawnState state = SpawnState.Coin;
-    [Inject] private DiContainer container;
 
     private void OnEnable()
     {
@@ -32,37 +31,23 @@ public class ObstacleSpawner : MonoBehaviour
     {
         if (spawnPoint == null) return;
 
-        switch (state)
+        if (state == SpawnState.Coin)
         {
-            case SpawnState.Coin:
-                SpawnCoin();
-                state = SpawnState.Obstacle; // SAU COIN LÀ OBSTACLE
-                break;
-
-            case SpawnState.Obstacle:
-                SpawnObstacle();
-                state = SpawnState.Coin;     // SAU OBSTACLE LÀ COIN
-                break;
+            SpawnFrom(coinPrefabs);
+            state = SpawnState.Obstacle;
+        }
+        else
+        {
+            SpawnFrom(obstaclePrefabs);
+            state = SpawnState.Coin;
         }
     }
 
-    private void SpawnCoin()
+    private void SpawnFrom(GameObject[] prefabs)
     {
-        if (coinPrefabs.Length == 0) return;
+        if (prefabs == null || prefabs.Length == 0) return;
 
-        int index = Random.Range(0, coinPrefabs.Length);
-        container.InstantiatePrefab(
-           coinPrefabs[index],
-           spawnPoint.position,
-           spawnPoint.rotation,
-           null);
-    }
-
-    private void SpawnObstacle()
-    {
-        if (obstaclePrefabs.Length == 0) return;
-
-        int index = Random.Range(0, obstaclePrefabs.Length);
-        Instantiate(obstaclePrefabs[index], spawnPoint.position, spawnPoint.rotation);
+        int index = Random.Range(0, prefabs.Length);
+        MultiPrefabPool.Instance.Spawn(prefabs[index], spawnPoint.position, spawnPoint.rotation);
     }
 }

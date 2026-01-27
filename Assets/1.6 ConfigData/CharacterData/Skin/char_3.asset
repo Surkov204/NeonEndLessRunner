@@ -16,3 +16,5 @@ MonoBehaviour:
   skinIndex: 2
   price: 2000
   health: 150
+  healthRegen: 80
+  speedMove: 9
