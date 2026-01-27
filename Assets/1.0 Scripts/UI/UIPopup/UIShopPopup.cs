@@ -10,9 +10,11 @@ namespace js
     {
         [SerializeField] private UICarousel carousel;
         [SerializeField] private Button buyButton;
-        [SerializeField] private TextMeshProUGUI priceText;
         [SerializeField] private SkinDatabase skinDatabase;
+        [SerializeField] private TextMeshProUGUI priceText;
+        [SerializeField] private TextMeshProUGUI healthRegenUI;
         [SerializeField] private TextMeshProUGUI healthText;
+        [SerializeField] private TextMeshProUGUI speedText;
 
         public static System.Action<int> OnSkinSelected;
         public static System.Action<int> OnSkinPreviewed;
@@ -48,9 +50,22 @@ namespace js
             healthText.text = $"{hp}";
         }
 
+        private void UpdateHealthRegenUI(int index) {
+            int hpRegen = skinDatabase.GetHealthRegen(index);
+            healthRegenUI.text = $"{hpRegen}";
+        }
+
+        private void UpdateSpeedMovingUI(int index)
+        {
+            int speedMove = skinDatabase.GetSpeedMove(index);
+            speedText.text = $"{speedMove}";
+        }
+
         private void HandleIndexChanged(int index)
         {
             UpdateHealthUI(index);
+            UpdateHealthRegenUI(index);
+            UpdateSpeedMovingUI(index);
             SkinState.SetSelected(index);
             OnSkinPreviewed?.Invoke(index);
 
@@ -84,7 +99,7 @@ namespace js
 
             SkinState.Unlock(index);
             SkinState.SetEquipped(index);
-
+            HandleIndexChanged(index);
             OnSkinEquipped?.Invoke(index);
         }
 

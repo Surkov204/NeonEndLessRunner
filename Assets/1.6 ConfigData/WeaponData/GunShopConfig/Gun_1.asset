@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: Gun_1
   m_EditorClassIdentifier: 
   gunIndex: 0
+  gunName: Sunbeam
   isShopItem: 0
   price: 0
-  gunPrefab: {fileID: 0}
+  maxAmmo: 30
+  fireRate: 0.12
+  reloadTime: 1.5
+  muzzleVelocity: 40
   gunMaterial: {fileID: 0}

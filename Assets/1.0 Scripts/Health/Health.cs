@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 
 public class Health : MonoBehaviour
@@ -17,12 +17,23 @@ public class Health : MonoBehaviour
         OnHealthChanged?.Invoke(CurrentHealth, maxHealth);
     }
 
+    private void OnEnable()
+    {
+        ResetHealth();
+    }
+
+
     public void SetMaxHealth(int value)
     {
         maxHealth = value;
         HealFull();
     }
 
+    public void ResetHealth()
+    {
+        CurrentHealth = maxHealth;
+        OnHealthChanged?.Invoke(CurrentHealth, maxHealth);
+    }
 
     public void TakeDamage(int damage)
     {

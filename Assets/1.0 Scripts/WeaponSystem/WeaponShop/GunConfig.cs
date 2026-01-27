@@ -5,11 +5,19 @@ public class GunConfig : ScriptableObject
 {
     [Header("Identity")]
     public int gunIndex;
+    public string gunName;
 
     [Header("Shop")]
     public bool isShopItem = true;
     public int price;
 
+    [Header("Stats")]
+    public int maxAmmo;
+    public float fireRate;
+    public float reloadTime;
+    public float muzzleVelocity;
+
+
     [Header("Visual (Optional)")]
-    public Material gunMaterial; // OPTION – có thì dùng, không thì thôi
+    public Material gunMaterial; 
 }

@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: char_stat_3
   m_EditorClassIdentifier: 
   maxHealth: 150
+  maxHealResource: 80
+  moveSpeed: 9

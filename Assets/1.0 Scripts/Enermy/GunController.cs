@@ -1,4 +1,5 @@
 using UnityEngine;
+using static SoundFXLibrary;
 
 public class GunController : MonoBehaviour
 {
@@ -15,16 +16,14 @@ public class GunController : MonoBehaviour
         if (Time.time - lastFireTime < fireRate) return;
         lastFireTime = Time.time;
 
-        GameObject bullet = Instantiate(
-            bulletPrefab,
-            firePoint.position,
-            firePoint.rotation
+        GameObject bullet = MultiPrefabPool.Instance.Spawn(
+        bulletPrefab,
+        firePoint.position,
+        firePoint.rotation
         );
 
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         if (rb != null)
-        {
             rb.velocity = firePoint.forward * bulletSpeed;
-        }
     }
 }

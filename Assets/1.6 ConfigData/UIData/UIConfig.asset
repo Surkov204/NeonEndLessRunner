@@ -38,3 +38,8 @@ MonoBehaviour:
     animationType: 0
     preload: 0
     destroyAfterHide: 1
+  - prefab: {fileID: 1701496587344464683, guid: 78d9d891229cfff4a972a837323d5fd4, type: 3}
+    canvasType: 2
+    animationType: 0
+    preload: 0
+    destroyAfterHide: 1

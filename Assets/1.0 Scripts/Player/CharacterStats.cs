@@ -3,8 +3,10 @@
 [CreateAssetMenu(menuName = "Character/Stats")]
 public class CharacterStats : ScriptableObject
 {
+    [Header("Heal Resource (Red Bar)")]
     public int maxHealth = 10;
-    // sau này có thể thêm:
-    // public float speed;
-    // public float damage;
+    [Header("Auto Heal Resource (Green Bar)")]
+    public int maxHealResource = 100;
+    [Header("Movement")]
+    public float moveSpeed = 4f;
 }

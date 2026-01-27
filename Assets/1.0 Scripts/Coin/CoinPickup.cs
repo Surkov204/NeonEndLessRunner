@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Zenject;
+using static SoundFXLibrary;
 
 public class CoinPickup : MonoBehaviour
 {
@@ -24,7 +25,7 @@ public class CoinPickup : MonoBehaviour
             return;
         }
 
-
+        AudioManager.Instance.PlaySoundFX(SoundFXName.Coin);
         coinFlyUI.SpawnCoinFly(transform.position, coinValue);  
         Destroy(gameObject);
     }

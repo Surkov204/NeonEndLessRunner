@@ -15,4 +15,6 @@ MonoBehaviour:
   isShopItem: 1
   skinIndex: 1
   price: 100
-  health: 120
+  health: 125
+  healthRegen: 115
+  speedMove: 5

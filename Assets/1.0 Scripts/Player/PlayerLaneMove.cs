@@ -8,11 +8,13 @@ public class PlayerLaneMove : MonoBehaviour
     [SerializeField] private Transform playerTransform;
 
     [Header("Local X Movement")]
-    [SerializeField] private float minX = 0f;   // BIÊN TRÁI
-    [SerializeField] private float maxX = 6f;   // BIÊN PHẢI
+    [SerializeField] private float minX = 0f;   
+    [SerializeField] private float maxX = 6f;   
     [SerializeField] private float moveSpeed = 4f;
 
-    private int moveDir = 0; // -1: về minX | 1: về maxX
+    public float CurrentSpeed => moveSpeed;
+    private const float MIN_SPEED = 4f;
+    private int moveDir = 0; 
 
     private void Update()
     {
@@ -55,8 +57,6 @@ public class PlayerLaneMove : MonoBehaviour
 
     }
 
-
-
     // ===== UI EVENTS =====
     public void MoveUpStart()    // VỀ 0
     {
@@ -71,5 +71,10 @@ public class PlayerLaneMove : MonoBehaviour
     public void StopMove()
     {
         moveDir = 0;
+    }
+
+    public void ApplyStats(CharacterStats stats)
+    {
+        moveSpeed = Mathf.Max(MIN_SPEED, stats.moveSpeed);
     }
 }

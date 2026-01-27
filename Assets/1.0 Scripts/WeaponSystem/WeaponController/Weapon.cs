@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Zenject;
+using static SoundFXLibrary;
 
 public class Weapon : MonoBehaviour
 {
@@ -53,11 +54,20 @@ public class Weapon : MonoBehaviour
         currentAmmo--;
         FireAmmoSignal();
 
-        GameObject bullet = Instantiate(data.BulletPrefab, muzzle.position, muzzle.rotation);
-        if (bullet.TryGetComponent(out Rigidbody rb))
-            rb.velocity = muzzle.forward * data.BulletSpeed;
+        GameObject projectile = MultiPrefabPool.Instance.Spawn(
+            data.BulletPrefab,
+            muzzle.position,
+            muzzle.rotation
+        );
+        AudioManager.Instance.PlaySoundFX(SoundFXName.Shot);
+        Rigidbody[] rbs = projectile.GetComponentsInChildren<Rigidbody>();
 
-        Destroy(bullet, 3f);
+        foreach (var rb in rbs)
+        {
+            if (rb == null) continue;
+
+            rb.velocity = rb.transform.forward * data.BulletSpeed;
+        }
     }
 
     public void Reload()
